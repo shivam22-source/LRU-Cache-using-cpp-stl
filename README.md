@@ -21,6 +21,12 @@ The most recently used item is kept at the front of the list. Whenever a key is 
 updated, its list node moves to the front. When the cache grows past its capacity, the
 item at the back of the list is removed.
 
+## Complexity
+
+- `get`: O(1) average time
+- `put`: O(1) average time
+- Space: O(capacity)
+
 ## Example
 
 ```cpp
