@@ -8,4 +8,5 @@ nbproject
 build
 
 cpp-lru-cache-test
+*.exe
 obj-x86_64-linux-gnu/
