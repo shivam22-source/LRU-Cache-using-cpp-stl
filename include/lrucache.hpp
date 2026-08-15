@@ -22,61 +22,61 @@ public:
 	typedef typename std::list<key_value_pair_t>::iterator list_iterator_t;
 
 	explicit lru_cache(size_t max_size) :
-		_max_size(max_size) {
+		max_size_(max_size) {
 	}
 	
 	void put(const key_t& key, const value_t& value) {
-		if (_max_size == 0) {
+		if (max_size_ == 0) {
 			return;
 		}
 
-		auto it = _cache_items_map.find(key);
-		if (it != _cache_items_map.end()) {
-			_cache_items_list.splice(_cache_items_list.begin(), _cache_items_list, it->second);
+		auto it = items_map_.find(key);
+		if (it != items_map_.end()) {
+			items_list_.splice(items_list_.begin(), items_list_, it->second);
 			it->second->second = value;
 			return;
 		}
 
-		_cache_items_list.push_front(key_value_pair_t(key, value));
-		_cache_items_map[key] = _cache_items_list.begin();
+		items_list_.push_front(key_value_pair_t(key, value));
+		items_map_[key] = items_list_.begin();
 		
-		if (_cache_items_map.size() > _max_size) {
-			auto last = --_cache_items_list.end();
-			_cache_items_map.erase(last->first);
-			_cache_items_list.pop_back();
+		if (items_map_.size() > max_size_) {
+			auto last = --items_list_.end();
+			items_map_.erase(last->first);
+			items_list_.pop_back();
 		}
 	}
 	
 	const value_t& get(const key_t& key) {
-		auto it = _cache_items_map.find(key);
-		if (it == _cache_items_map.end()) {
+		auto it = items_map_.find(key);
+		if (it == items_map_.end()) {
 			throw std::range_error("There is no such key in cache");
 		} else {
-			_cache_items_list.splice(_cache_items_list.begin(), _cache_items_list, it->second);
+			items_list_.splice(items_list_.begin(), items_list_, it->second);
 			return it->second->second;
 		}
 	}
 	
 	bool exists(const key_t& key) const {
-		return _cache_items_map.find(key) != _cache_items_map.end();
+		return items_map_.find(key) != items_map_.end();
 	}
 	
 	size_t size() const {
-		return _cache_items_map.size();
+		return items_map_.size();
 	}
 
 	bool empty() const {
-		return _cache_items_map.empty();
+		return items_map_.empty();
 	}
 
 	size_t capacity() const {
-		return _max_size;
+		return max_size_;
 	}
 	
 private:
-	std::list<key_value_pair_t> _cache_items_list;
-	std::unordered_map<key_t, list_iterator_t> _cache_items_map;
-	size_t _max_size;
+	std::list<key_value_pair_t> items_list_;
+	std::unordered_map<key_t, list_iterator_t> items_map_;
+	size_t max_size_;
 };
 
 } // namespace cache
