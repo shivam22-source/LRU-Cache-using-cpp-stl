@@ -51,10 +51,10 @@ public:
 		auto it = items_map_.find(key);
 		if (it == items_map_.end()) {
 			throw std::range_error("There is no such key in cache");
-		} else {
-			items_list_.splice(items_list_.begin(), items_list_, it->second);
-			return it->second->second;
 		}
+
+		items_list_.splice(items_list_.begin(), items_list_, it->second);
+		return it->second->second;
 	}
 	
 	bool exists(const key_t& key) const {
