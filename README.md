@@ -10,7 +10,7 @@ reusable C++ class.
 ## Features
 
 - Header-only implementation
-- `put`, `get`, `exists`, `size`, and `capacity` APIs
+- `put`, `get`, `exists`, `empty`, `size`, and `capacity` APIs
 - O(1) average-time lookup, insert, update, and eviction
 - Uses only standard C++ containers
 - Includes a small assert-based test file

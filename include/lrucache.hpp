@@ -65,6 +65,10 @@ public:
 		return _cache_items_map.size();
 	}
 
+	bool empty() const {
+		return _cache_items_map.empty();
+	}
+
 	size_t capacity() const {
 		return _max_size;
 	}

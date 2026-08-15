@@ -7,8 +7,11 @@ namespace {
 
 void test_simple_put() {
     cache::lru_cache<int, int> cache_lru(1);
+    assert(cache_lru.empty());
+
     cache_lru.put(7, 777);
 
+    assert(!cache_lru.empty());
     assert(cache_lru.exists(7));
     assert(cache_lru.get(7) == 777);
     assert(cache_lru.size() == 1);
